@@ -287,22 +287,22 @@ export const BEFORE_AFTER = [
   {
     title: "Kitchen Drain Restoration",
     location: "Oak Bay residence",
-    before: "https://images.unsplash.com/photo-1556909114-44e3e9399a2a?w=1200&q=80",
-    after: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&q=80",
+    before: "/images/before-after/kitchen-drain-before.jpg",
+    after: "/images/before-after/kitchen-drain-after.jpg",
     description: "30 years of grease buildup hydro-jetted and restored to full flow.",
   },
   {
     title: "Tankless Water Heater Upgrade",
     location: "Saanich home",
-    before: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80",
-    after: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=1200&q=80",
+    before: "/images/before-after/water-heater-before.jpg",
+    after: "/images/before-after/water-heater-after.jpg",
     description: "Replaced an aging 50-gal tank with a high-efficiency Navien tankless system.",
   },
   {
     title: "Master Bath Renovation",
     location: "Fairfield character home",
-    before: "https://images.unsplash.com/photo-1585412727339-54e4bae3bbf9?w=1200&q=80",
-    after: "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=1200&q=80",
+    before: "/images/before-after/bathroom-before.jpg",
+    after: "/images/before-after/bathroom-after.jpg",
     description: "Full rough-in and fixture install for a heritage home remodel.",
   },
 ] as const;
