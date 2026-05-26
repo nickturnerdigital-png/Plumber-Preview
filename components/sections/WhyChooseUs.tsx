@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { BadgeCheck, ShieldCheck, ThumbsUp } from "lucide-react";
 import { TrustBadges } from "@/components/ui/TrustBadges";
 import { SectionHeading } from "./ServicesGrid";
@@ -38,13 +37,10 @@ export function WhyChooseUs() {
 
         <div className="mt-16 grid gap-6 lg:grid-cols-3">
           {FEATURES.map((feature, i) => (
-            <motion.div
+            <div
               key={feature.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: i * 0.1, duration: 0.5 }}
-              className="group relative overflow-hidden rounded-3xl bg-white p-8 shadow-[0_4px_24px_-12px_rgba(11,24,41,0.1)]"
+              className="group relative overflow-hidden rounded-3xl bg-white p-8 shadow-[0_4px_24px_-12px_rgba(11,24,41,0.1)] animate-fade-in-up"
+              style={{ animationDelay: `${i * 100}ms` }}
             >
               <div
                 className={`absolute -top-12 -right-12 h-32 w-32 rounded-full bg-gradient-to-br ${feature.color} opacity-10 blur-2xl transition-opacity group-hover:opacity-20`}
@@ -56,7 +52,7 @@ export function WhyChooseUs() {
               </div>
               <h3 className="font-display text-2xl font-bold text-navy">{feature.title}</h3>
               <p className="mt-3 text-navy-400 leading-relaxed">{feature.body}</p>
-            </motion.div>
+            </div>
           ))}
         </div>
 

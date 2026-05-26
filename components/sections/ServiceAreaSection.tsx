@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { MapPin, Phone } from "lucide-react";
 import { COMPANY, NEIGHBORHOODS } from "@/lib/constants";
 import { SectionHeading } from "./ServicesGrid";
@@ -20,17 +19,14 @@ export function ServiceAreaSection() {
 
             <div className="mt-10 flex flex-wrap gap-2">
               {NEIGHBORHOODS.map((n, i) => (
-                <motion.span
+                <span
                   key={n}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.03 }}
-                  className="rounded-full bg-electric/5 px-4 py-2 text-sm font-semibold text-navy ring-1 ring-electric/15 transition hover:bg-electric hover:text-white hover:ring-electric"
+                  className="rounded-full bg-electric/5 px-4 py-2 text-sm font-semibold text-navy ring-1 ring-electric/15 transition hover:bg-electric hover:text-white hover:ring-electric animate-scale-in"
+                  style={{ animationDelay: `${i * 30}ms` }}
                 >
                   <MapPin className="mr-1 inline h-3 w-3" />
                   {n}
-                </motion.span>
+                </span>
               ))}
             </div>
 
@@ -46,12 +42,7 @@ export function ServiceAreaSection() {
             </div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="relative"
-          >
+          <div className="relative animate-scale-in" style={{ animationDelay: '200ms' }}>
             <div className="relative aspect-square overflow-hidden rounded-3xl bg-navy-gradient p-8">
               <div
                 className="absolute inset-0 bg-noise opacity-[0.05] mix-blend-overlay"
@@ -69,18 +60,14 @@ export function ServiceAreaSection() {
                     <stop offset="100%" stopColor="#1D6FFF" stopOpacity="0" />
                   </radialGradient>
                 </defs>
-                {/* Coverage circles (concentric pulse) */}
-                {[180, 130, 80].map((r, i) => (
-                  <motion.circle
+                {/* Coverage circles (static) */}
+                {[180, 130, 80].map((r) => (
+                  <circle
                     key={r}
                     cx="200"
                     cy="200"
                     r={r}
                     fill="url(#zoneGradient)"
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.2 + i * 0.15, duration: 0.8 }}
                   />
                 ))}
                 {/* Vancouver Island silhouette (simplified) */}
@@ -91,7 +78,7 @@ export function ServiceAreaSection() {
                   strokeWidth="1.5"
                 />
 
-                {/* Neighborhood pins */}
+                {/* Neighborhood pins (static) */}
                 {[
                   { x: 200, y: 200, label: "Victoria", size: 6 },
                   { x: 230, y: 175, label: "Oak Bay", size: 4 },
@@ -103,24 +90,11 @@ export function ServiceAreaSection() {
                   { x: 130, y: 240, label: "Sooke", size: 4 },
                 ].map((pin) => (
                   <g key={pin.label}>
-                    <motion.circle
+                    <circle
                       cx={pin.x}
                       cy={pin.y}
                       r={pin.size}
                       fill="#E8962E"
-                      initial={{ scale: 0 }}
-                      whileInView={{ scale: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.6, type: "spring", stiffness: 200 }}
-                    />
-                    <motion.circle
-                      cx={pin.x}
-                      cy={pin.y}
-                      r={pin.size}
-                      fill="#E8962E"
-                      opacity="0.4"
-                      animate={{ r: [pin.size, pin.size * 3, pin.size], opacity: [0.4, 0, 0.4] }}
-                      transition={{ duration: 2.5, repeat: Infinity, delay: Math.random() * 2 }}
                     />
                     <text
                       x={pin.x + pin.size + 4}
@@ -146,12 +120,12 @@ export function ServiceAreaSection() {
                 <div className="text-right text-white">
                   <p className="text-xs uppercase tracking-wider text-white/60">Active techs</p>
                   <p className="flex items-center gap-1.5 text-lg font-bold">
-                    <span className="h-2 w-2 animate-pulse rounded-full bg-success" />8 today
+                    <span className="h-2 w-2 rounded-full bg-success" />8 today
                   </p>
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

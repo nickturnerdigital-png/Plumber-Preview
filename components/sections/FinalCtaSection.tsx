@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Clock, Phone, Sparkles } from "lucide-react";
@@ -29,22 +28,18 @@ export function FinalCtaSection() {
   return (
     <section className="relative overflow-hidden bg-navy-gradient py-24 text-white sm:py-32">
       <div
-        className="absolute -top-32 left-1/4 h-96 w-96 rounded-full bg-electric/30 blur-3xl"
+        className="absolute -top-32 left-1/4 h-96 w-96 rounded-full bg-electric/30 blur-[100px] will-change-transform"
         aria-hidden
       />
       <div
-        className="absolute -bottom-32 right-1/4 h-96 w-96 rounded-full bg-copper/20 blur-3xl"
+        className="absolute -bottom-32 right-1/4 h-96 w-96 rounded-full bg-copper/20 blur-[100px] will-change-transform"
         aria-hidden
       />
       <div className="absolute inset-0 bg-noise opacity-[0.04] mix-blend-overlay" aria-hidden />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
+          <div className="animate-slide-in-left">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3.5 py-1.5">
               <Sparkles className="h-3.5 w-3.5 text-copper" />
               <span className="text-xs font-bold uppercase tracking-[0.18em]">
@@ -96,14 +91,9 @@ export function FinalCtaSection() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="relative"
-          >
+          <div className="relative animate-slide-in-right" style={{ animationDelay: '150ms' }}>
             <div className="rounded-3xl bg-white p-8 text-navy shadow-2xl sm:p-10">
               <h3 className="font-display text-2xl font-bold">Request a callback</h3>
               <p className="mt-1 text-sm text-navy-400">
@@ -138,11 +128,11 @@ export function FinalCtaSection() {
               </form>
 
               <p className="mt-5 flex items-center justify-center gap-2 text-xs text-navy-400">
-                <span className="flex h-2 w-2 animate-pulse rounded-full bg-success" />
+                <span className="flex h-2 w-2 rounded-full bg-success" />
                 Average callback time today: <span className="font-bold text-navy">8 min</span>
               </p>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

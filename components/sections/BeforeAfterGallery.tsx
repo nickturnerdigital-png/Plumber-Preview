@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import { BEFORE_AFTER } from "@/lib/constants";
 import { BeforeAfterSlider } from "@/components/ui/BeforeAfterSlider";
@@ -23,12 +22,9 @@ export function BeforeAfterGallery() {
           subtitle="A small sample of recent transformations across Greater Victoria. Drag the slider to see before and after."
         />
 
-        <motion.div
+        <div
           key={index}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="mt-14 grid gap-8 lg:grid-cols-[1.5fr_1fr] lg:items-center"
+          className="mt-14 grid gap-8 lg:grid-cols-[1.5fr_1fr] lg:items-center animate-fade-in"
         >
           <BeforeAfterSlider before={current.before} after={current.after} />
 
@@ -73,7 +69,7 @@ export function BeforeAfterGallery() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

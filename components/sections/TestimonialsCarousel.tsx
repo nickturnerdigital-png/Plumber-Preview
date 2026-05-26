@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, MapPin, Quote } from "lucide-react";
 import { TESTIMONIALS } from "@/lib/constants";
@@ -12,31 +11,31 @@ const SWIPE_THRESHOLD = 50;
 
 export function TestimonialsCarousel() {
   const [index, setIndex] = useState(0);
-  const [direction, setDirection] = useState(1);
   const [paused, setPaused] = useState(false);
   const dragStartX = useRef<number>(0);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const go = (next: number) => {
-    setDirection(next > index ? 1 : -1);
-    setIndex(next);
-  };
-  const prev = () => go((index - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
-  const next = () => go((index + 1) % TESTIMONIALS.length);
+  const next = useCallback(() => {
+    setIndex((i) => (i + 1) % TESTIMONIALS.length);
+  }, []);
+
+  const prev = useCallback(() => {
+    setIndex((i) => (i - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
+  }, []);
+
+  const go = useCallback((i: number) => {
+    setIndex(i);
+  }, []);
 
   useEffect(() => {
     if (paused) return;
-    const t = setInterval(next, 6000);
-    return () => clearInterval(t);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [paused, index]);
+    timerRef.current = setInterval(next, 6000);
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [paused, next]);
 
   const t = TESTIMONIALS[index];
-
-  const variants = {
-    enter: (d: number) => ({ opacity: 0, x: d > 0 ? 60 : -60 }),
-    center: { opacity: 1, x: 0 },
-    exit: (d: number) => ({ opacity: 0, x: d > 0 ? -60 : 60 }),
-  };
 
   return (
     <section id="reviews" className="relative overflow-hidden bg-ice py-24 sm:py-32">
@@ -82,47 +81,39 @@ export function TestimonialsCarousel() {
               if (Math.abs(delta) > SWIPE_THRESHOLD) delta > 0 ? next() : prev();
             }}
           >
-            <AnimatePresence mode="wait" custom={direction}>
-              <motion.div
-                key={t.name}
-                custom={direction}
-                variants={variants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ duration: 0.35, ease: "easeInOut" }}
-                className="mx-auto max-w-3xl cursor-grab active:cursor-grabbing select-none rounded-3xl bg-white p-8 shadow-card-hover sm:p-12"
-              >
-                <Quote className="h-10 w-10 text-electric/30" />
-                <p className="mt-5 font-display text-2xl leading-relaxed text-navy sm:text-3xl">
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-                <div className="mt-8 flex flex-col gap-4 border-t border-navy-100 pt-6 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="flex items-center gap-4">
-                    <Image
-                      src={t.avatar}
-                      alt=""
-                      width={56}
-                      height={56}
-                      className="h-14 w-14 rounded-full border-2 border-ice"
-                      unoptimized
-                    />
-                    <div>
-                      <p className="font-bold text-navy">{t.name}</p>
-                      <p className="flex items-center gap-1.5 text-sm text-navy-400">
-                        <MapPin className="h-3 w-3" /> {t.neighborhood}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="sm:text-right">
-                    <StarRating rating={t.rating} />
-                    <p className="mt-1 text-xs text-navy-300">
-                      {t.source} • {t.date}
+            <div
+              key={t.name}
+              className="mx-auto max-w-3xl cursor-grab active:cursor-grabbing select-none rounded-3xl bg-white p-8 shadow-card-hover sm:p-12 transition-opacity duration-300"
+            >
+              <Quote className="h-10 w-10 text-electric/30" />
+              <p className="mt-5 font-display text-2xl leading-relaxed text-navy sm:text-3xl">
+                &ldquo;{t.quote}&rdquo;
+              </p>
+              <div className="mt-8 flex flex-col gap-4 border-t border-navy-100 pt-6 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center gap-4">
+                  <Image
+                    src={t.avatar}
+                    alt=""
+                    width={56}
+                    height={56}
+                    className="h-14 w-14 rounded-full border-2 border-ice"
+                    unoptimized
+                  />
+                  <div>
+                    <p className="font-bold text-navy">{t.name}</p>
+                    <p className="flex items-center gap-1.5 text-sm text-navy-400">
+                      <MapPin className="h-3 w-3" /> {t.neighborhood}
                     </p>
                   </div>
                 </div>
-              </motion.div>
-            </AnimatePresence>
+                <div className="sm:text-right">
+                  <StarRating rating={t.rating} />
+                  <p className="mt-1 text-xs text-navy-300">
+                    {t.source} • {t.date}
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Controls row: prev arrow · dots · next arrow */}
