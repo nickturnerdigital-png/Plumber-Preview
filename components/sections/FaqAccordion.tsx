@@ -7,7 +7,7 @@ import { FAQS } from "@/lib/constants";
 import { SectionHeading } from "./ServicesGrid";
 
 export function FaqAccordion() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
     <section className="bg-ice py-24 sm:py-32">
