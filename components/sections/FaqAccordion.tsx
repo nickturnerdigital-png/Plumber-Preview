@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { Plus } from "lucide-react";
 import { FAQS } from "@/lib/constants";
 import { SectionHeading } from "./ServicesGrid";
+import { cn } from "@/lib/utils";
 
 export function FaqAccordion() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -22,13 +22,10 @@ export function FaqAccordion() {
           {FAQS.map((faq, i) => {
             const open = openIndex === i;
             return (
-              <motion.div
+              <div
                 key={faq.q}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.04 }}
-                className="overflow-hidden rounded-2xl bg-white ring-1 ring-navy-100/60"
+                className="overflow-hidden rounded-2xl bg-white ring-1 ring-navy-100/60 animate-fade-in-up"
+                style={{ animationDelay: `${i * 40}ms` }}
               >
                 <button
                   onClick={() => setOpenIndex(open ? null : i)}
@@ -37,27 +34,26 @@ export function FaqAccordion() {
                   <span className="font-display text-lg font-semibold text-navy">
                     {faq.q}
                   </span>
-                  <motion.span
-                    animate={{ rotate: open ? 45 : 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-electric/10 text-electric"
+                  <span
+                    className={cn(
+                      "flex h-9 w-9 flex-none items-center justify-center rounded-full bg-electric/10 text-electric transition-transform duration-200",
+                      open && "rotate-45"
+                    )}
                   >
                     <Plus className="h-5 w-5" />
-                  </motion.span>
+                  </span>
                 </button>
-                <AnimatePresence initial={false}>
-                  {open && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.25 }}
-                    >
-                      <div className="px-6 pb-6 text-navy-400 leading-relaxed">{faq.a}</div>
-                    </motion.div>
+                <div
+                  className={cn(
+                    "grid transition-all duration-300 ease-out",
+                    open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
                   )}
-                </AnimatePresence>
-              </motion.div>
+                >
+                  <div className="overflow-hidden">
+                    <div className="px-6 pb-6 text-navy-400 leading-relaxed">{faq.a}</div>
+                  </div>
+                </div>
+              </div>
             );
           })}
         </div>

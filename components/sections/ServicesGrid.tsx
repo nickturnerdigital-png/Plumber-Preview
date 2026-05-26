@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
 import {
   ArrowUpRight,
@@ -44,12 +43,10 @@ export function ServicesGrid() {
             const Icon = ICON_MAP[service.icon as keyof typeof ICON_MAP];
             const accent = ACCENT_MAP[service.accent as keyof typeof ACCENT_MAP];
             return (
-              <motion.div
+              <div
                 key={service.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ delay: i * 0.08, duration: 0.5 }}
+                className="animate-fade-in-up"
+                style={{ animationDelay: `${i * 80}ms` }}
               >
                 <Link
                   href={`/services#${service.id}`}
@@ -82,7 +79,7 @@ export function ServicesGrid() {
                     </span>
                   </div>
                 </Link>
-              </motion.div>
+              </div>
             );
           })}
         </div>
@@ -105,36 +102,25 @@ export function SectionHeading({
   return (
     <div className={align === "center" ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
       {eyebrow && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-4"
-        >
+        <div className="mb-4 animate-fade-in">
           <span className="inline-flex items-center rounded-full bg-electric/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-electric">
             {eyebrow}
           </span>
-        </motion.div>
+        </div>
       )}
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.1 }}
-        className="font-display text-4xl font-bold leading-[1.1] tracking-tight text-navy sm:text-5xl"
+      <h2
+        className="font-display text-4xl font-bold leading-[1.1] tracking-tight text-navy sm:text-5xl animate-fade-in-up"
+        style={{ animationDelay: '100ms' }}
       >
         {title}
-      </motion.h2>
+      </h2>
       {subtitle && (
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-          className="mt-5 text-lg text-navy-400"
+        <p
+          className="mt-5 text-lg text-navy-400 animate-fade-in-up"
+          style={{ animationDelay: '200ms' }}
         >
           {subtitle}
-        </motion.p>
+        </p>
       )}
     </div>
   );

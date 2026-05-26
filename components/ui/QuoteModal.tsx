@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
 import { useEffect } from "react";
 import { X } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -9,7 +8,7 @@ import { quoteSchema, type QuoteInput } from "@/lib/schemas";
 import { SERVICES, COMPANY } from "@/lib/constants";
 import { Button } from "./Button";
 import { useToast } from "./Toast";
-import { sleep } from "@/lib/utils";
+import { sleep, cn } from "@/lib/utils";
 
 interface QuoteModalProps {
   open: boolean;
@@ -49,91 +48,83 @@ export function QuoteModal({ open, onClose, defaultService }: QuoteModalProps) {
     reset();
   };
 
+  if (!open) return null;
+
   return (
-    <AnimatePresence>
-      {open && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[90] flex items-end justify-center bg-navy/70 backdrop-blur sm:items-center"
+    <div
+      className="fixed inset-0 z-[90] flex items-end justify-center bg-navy/70 backdrop-blur sm:items-center animate-fade-in"
+      onClick={onClose}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-lg overflow-hidden rounded-t-3xl bg-white shadow-2xl sm:rounded-3xl animate-scale-in"
+        style={{ animationDelay: '50ms' }}
+      >
+        <button
           onClick={onClose}
+          className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-navy/5 text-navy hover:bg-navy/10"
+          aria-label="Close"
         >
-          <motion.div
-            initial={{ y: 60, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 30, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-lg overflow-hidden rounded-t-3xl bg-white shadow-2xl sm:rounded-3xl"
-          >
-            <button
-              onClick={onClose}
-              className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-navy/5 text-navy hover:bg-navy/10"
-              aria-label="Close"
-            >
-              <X className="h-4 w-4" />
-            </button>
+          <X className="h-4 w-4" />
+        </button>
 
-            <div className="bg-navy-gradient px-7 py-6 text-white">
-              <h3 className="font-display text-2xl font-bold">Get a Free Quote</h3>
-              <p className="mt-1 text-sm text-white/80">
-                We&apos;ll text you a quote within 15 minutes. No spam, no obligation.
-              </p>
-            </div>
+        <div className="bg-navy-gradient px-7 py-6 text-white">
+          <h3 className="font-display text-2xl font-bold">Get a Free Quote</h3>
+          <p className="mt-1 text-sm text-white/80">
+            We&apos;ll text you a quote within 15 minutes. No spam, no obligation.
+          </p>
+        </div>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 px-7 py-6">
-              <Field label="Your Name" error={errors.name?.message}>
-                <input
-                  {...register("name")}
-                  placeholder="Sarah Mitchell"
-                  className="form-input"
-                  autoFocus
-                />
-              </Field>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 px-7 py-6">
+          <Field label="Your Name" error={errors.name?.message}>
+            <input
+              {...register("name")}
+              placeholder="Sarah Mitchell"
+              className="form-input"
+              autoFocus
+            />
+          </Field>
 
-              <Field label="Phone Number" error={errors.phone?.message}>
-                <input
-                  {...register("phone")}
-                  type="tel"
-                  placeholder="(250) 555-0123"
-                  className="form-input"
-                />
-              </Field>
+          <Field label="Phone Number" error={errors.phone?.message}>
+            <input
+              {...register("phone")}
+              type="tel"
+              placeholder="(250) 555-0123"
+              className="form-input"
+            />
+          </Field>
 
-              <Field label="Service Needed" error={errors.service?.message}>
-                <select {...register("service")} className="form-input">
-                  <option value="">Select a service…</option>
-                  {SERVICES.map((s) => (
-                    <option key={s.id} value={s.id}>
-                      {s.name}
-                    </option>
-                  ))}
-                  <option value="other">Something else</option>
-                </select>
-              </Field>
+          <Field label="Service Needed" error={errors.service?.message}>
+            <select {...register("service")} className="form-input">
+              <option value="">Select a service…</option>
+              {SERVICES.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.name}
+                </option>
+              ))}
+              <option value="other">Something else</option>
+            </select>
+          </Field>
 
-              <Field label="Tell us more (optional)" error={errors.message?.message}>
-                <textarea
-                  {...register("message")}
-                  rows={3}
-                  placeholder="What's going on?"
-                  className="form-input resize-none"
-                />
-              </Field>
+          <Field label="Tell us more (optional)" error={errors.message?.message}>
+            <textarea
+              {...register("message")}
+              rows={3}
+              placeholder="What's going on?"
+              className="form-input resize-none"
+            />
+          </Field>
 
-              <Button type="submit" size="lg" fullWidth loading={isSubmitting}>
-                Get My Free Quote
-              </Button>
+          <Button type="submit" size="lg" fullWidth loading={isSubmitting}>
+            Get My Free Quote
+          </Button>
 
-              <p className="text-center text-xs text-navy-300">
-                Or call directly: <span className="font-semibold text-navy">{COMPANY.phone}</span>
-              </p>
-            </form>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+          <p className="text-center text-xs text-navy-300">
+            Or call directly: <span className="font-semibold text-navy">{COMPANY.phone}</span>
+          </p>
+        </form>
+      </div>
+    </div>
   );
 }
 

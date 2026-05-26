@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { motion } from "framer-motion";
 import { ArrowRight, Calculator, Info } from "lucide-react";
 import { SERVICES, URGENCY_OPTIONS, PROPERTY_OPTIONS } from "@/lib/constants";
 import { Button } from "@/components/ui/Button";
@@ -28,11 +27,11 @@ export function QuoteCalculator() {
   return (
     <section className="relative overflow-hidden bg-navy-gradient py-24 text-white sm:py-32">
       <div
-        className="absolute -top-32 right-0 h-96 w-96 rounded-full bg-electric/30 blur-3xl"
+        className="absolute -top-32 right-0 h-96 w-96 rounded-full bg-electric/30 blur-[100px] will-change-transform"
         aria-hidden
       />
       <div
-        className="absolute -bottom-32 left-0 h-96 w-96 rounded-full bg-copper/15 blur-3xl"
+        className="absolute -bottom-32 left-0 h-96 w-96 rounded-full bg-copper/15 blur-[100px] will-change-transform"
         aria-hidden
       />
 
@@ -48,16 +47,14 @@ export function QuoteCalculator() {
             Know Your Price in <span className="text-copper">10 Seconds</span>.
           </h2>
           <p className="mt-5 text-lg text-white/70">
-            Most plumbers make you wait for a call back. We don't. Get a ballpark right now —
+            Most plumbers make you wait for a call back. We don&apos;t. Get a ballpark right now —
             then lock it in with a free on-site quote.
           </p>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-12 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl sm:p-10"
+        <div
+          className="mt-12 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl sm:p-10 animate-fade-in-up"
+          style={{ animationDelay: '200ms' }}
         >
           <Step number={1} label="What do you need?">
             <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -101,12 +98,9 @@ export function QuoteCalculator() {
             </div>
           </Step>
 
-          <motion.div
+          <div
             key={`${estimate.low}-${estimate.high}`}
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.35, type: "spring", stiffness: 200 }}
-            className="mt-8 grid items-center gap-6 rounded-2xl bg-gradient-to-br from-electric/20 to-copper/20 p-6 sm:grid-cols-[1fr_auto] sm:p-8"
+            className="mt-8 grid items-center gap-6 rounded-2xl bg-gradient-to-br from-electric/20 to-copper/20 p-6 sm:grid-cols-[1fr_auto] sm:p-8 transition-all duration-300"
           >
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/70">
@@ -126,8 +120,8 @@ export function QuoteCalculator() {
               Lock In My Price
               <ArrowRight className="h-4 w-4" />
             </Button>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );
